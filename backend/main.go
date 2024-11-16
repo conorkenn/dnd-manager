@@ -4,18 +4,15 @@ import (
 	"dnd-manager/character"
 	"dnd-manager/dice"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.Default()
 
-	/*router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "dnd manager",
-		})
-	})
-	*/
+	// Enable CORS
+	router.Use(cors.Default())
 
 	router.POST("/characters", character.CreateCharacter)
 	router.GET("/characters", character.ListCharacters)
