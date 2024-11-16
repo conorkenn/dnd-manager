@@ -11,10 +11,10 @@ import (
 )
 
 type Character struct {
-	Name  string `json:"name"`
-	Race  string `json:"race"`
-	Class string `json:"class"`
-	Level int    `json:"level"`
+	Name           string `json:"name"`
+	Race           string `json:"race"`
+	CharacterClass string `json:"characterClass"`
+	Level          int    `json:"level"`
 }
 
 var characters = []Character{}
@@ -31,7 +31,11 @@ func CreateCharacter(c *gin.Context) {
 	if err := writeCharacterToCSV(newCharacter); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to save character"})
 	}
-	c.JSON(http.StatusOK, newCharacter)
+	c.JSON(http.StatusOK, gin.H{
+		"character": newCharacter,
+		"message":   "successfully created character",
+	})
+
 }
 
 func ListCharacters(c *gin.Context) {
@@ -64,7 +68,7 @@ func writeCharacterToCSV(c Character) error {
 	record := []string{
 		c.Name,
 		c.Race,
-		c.Class,
+		c.CharacterClass,
 		fmt.Sprint(c.Level),
 	}
 
@@ -103,10 +107,10 @@ func loadCharactersFromCSV() error {
 		}
 
 		character := Character{
-			Name:  record[0],
-			Race:  record[1],
-			Class: record[2],
-			Level: level,
+			Name:           record[0],
+			Race:           record[1],
+			CharacterClass: record[2],
+			Level:          level,
 		}
 
 		characters = append(characters, character)

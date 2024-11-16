@@ -10,7 +10,6 @@ const DiceRoller: React.FC = () => {
     const handleRoll = async () => {
         try {
             const rollResult = await rollDice({sides, num_rolls: numRolls})
-            console.log(rollResult)
             setResult(rollResult)
             setError(null)
         } catch(err){
