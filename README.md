@@ -3,31 +3,22 @@
 Create and List characters MVP
 
 ```
-Invoke-RestMethod -Uri http://localhost:8080/characters -Method Post -Headers @{ "Content-Type" = "application/json" } -Body '{"name":"Suel","race":"Tiefling","class":"Bard","level":1}'
-
-name race     class level
----- ----     ----- -----
-Suel Tiefling Bard      1
-
-Invoke-WebRequest -Uri http://localhost:8080/characters -Method Get
-
-StatusCode        : 200
-StatusDescription : OK
-Content           : [{"name":"Suel","race":"Tiefling","class":"Bard","level":1}]
-RawContent        : HTTP/1.1 200 OK
-                    Content-Length: 60
-                    Content-Type: application/json; charset=utf-8
-                    Date: Fri, 15 Nov 2024 23:18:46 GMT
-
-                    [{"name":"Suel","race":"Tiefling","class":"Bard","level":1}]
-Forms             : {}
-Headers           : {[Content-Length, 60], [Content-Type, application/json; charset=utf-8], [Date, Fri, 15 Nov 2024 23:18:46 GMT]}
-Images            : {}
-InputFields       : {}
-Links             : {}
-ParsedHtml        : System.__ComObject
-RawContentLength  : 60
+$ curl -X POST http://localhost:8080/characters -H "Content-Type: application/json" -d '{"name":"Suel","race":"Tiefling","class":"Bard","level":1}'
+{"name":"Suel","race":"Tiefling","class":"Bard","level":1}
+```
 
 ```
+$ curl -X GET http://localhost:8080/characters
+[{"name":"Suel","race":"Tiefling","class":"Bard","level":1},{"name":"Suelchi","race":"Orc","class":"Monk","level":1}]
+```
+
+Dice 
+
+```
+$ curl -X POST http://localhost:8080/roll -H "Content-Type: application/json" -d '{"sides":6, "num_rolls":4}'
+{"message":"Successfully rolled dice","num_rolls":4,"results":[3,4,2,3],"sides":6}
+```
+
+
 
 
