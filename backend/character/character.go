@@ -43,7 +43,9 @@ func ListCharacters(c *gin.Context) {
 	if err := loadCharactersFromCSV(); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to load characters"})
 	}
-	c.JSON(http.StatusOK, characters)
+	c.JSON(http.StatusOK, gin.H{
+		"characters": characters,
+		"message":    "successfully listed characters"})
 }
 
 func DeleteCharacters(c *gin.Context) {
