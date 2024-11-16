@@ -1,4 +1,4 @@
-package main
+package character
 
 import (
 	"net/http"
@@ -15,7 +15,7 @@ type Character struct {
 
 var characters = []Character{}
 
-func createCharacter(c *gin.Context) {
+func CreateCharacter(c *gin.Context) {
 	var newCharacter Character
 
 	if err := c.BindJSON(&newCharacter); err != nil {
@@ -26,6 +26,6 @@ func createCharacter(c *gin.Context) {
 	c.JSON(http.StatusOK, newCharacter)
 }
 
-func listCharacters(c *gin.Context) {
+func ListCharacters(c *gin.Context) {
 	c.JSON(http.StatusOK, characters)
 }
