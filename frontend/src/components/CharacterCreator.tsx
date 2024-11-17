@@ -1,14 +1,27 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {createCharacter, CreateCharacterResponse} from '../api/createCharacterApi';
+import CharacterClass from "../constants/characterClass";
+import Race from "../constants/races";
 
 
 const CharacterCreator: React.FC = () => {
     const [name, setName] = useState("")
     const [race, setRace] = useState("")
-    const [characterClass, setcharacterClass] = useState("")
+    const [characterClass, setCharacterClass] = useState("")
     const [level, setLevel] = useState(1)
     const [result, setResult] = useState<CreateCharacterResponse | null>(null)
     const [error, setError] = useState<string | null>(null)
+    const classes = Object.values(CharacterClass)
+    const races = Object.values(Race)
+
+    useEffect(() => {
+        if (classes.length > 0 && !characterClass) {
+            setCharacterClass(classes[0]); // Set default character class
+        }
+        if (races.length > 0 && !race) {
+            setRace(races[0]); // Set default race
+        }
+    }, [classes, races, characterClass, race]);
 
     const handleCreation = async () => {
         try{
@@ -35,20 +48,32 @@ const CharacterCreator: React.FC = () => {
             </div>
             <div>
                 <label>
-                    race:
-                    <input type="string"
-                    value ={race}
-                    onChange={(e) => setRace(e.target.value)}
-                    />
+                    Race:
+                    <select
+                        value={race}
+                        onChange={(e) => setRace(e.target.value)}
+                    >
+                        {races.map((r) => (
+                        <option key={r} value={r}>
+                            {r}
+                        </option>
+                        ))}
+                    </select>
                 </label>
             </div>
             <div>
                 <label>
-                    class:
-                    <input type="string"
-                    value ={characterClass}
-                    onChange={(e) => setcharacterClass(e.target.value)}
-                    />
+                    Class:
+                    <select
+                        value={characterClass}
+                        onChange={(e) => setCharacterClass(e.target.value)}
+                    >
+                        {classes.map((cls) => (
+                        <option key={cls} value={cls}>
+                            {cls}
+                        </option>
+                        ))}
+                    </select>
                 </label>
             </div>
             <div>
