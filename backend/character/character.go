@@ -11,10 +11,20 @@ import (
 )
 
 type Character struct {
-	Name           string `json:"name"`
-	Race           string `json:"race"`
-	CharacterClass string `json:"characterClass"`
-	Level          int    `json:"level"`
+	Name           string     `json:"name"`
+	Race           string     `json:"race"`
+	CharacterClass string     `json:"characterClass"`
+	Level          int        `json:"level"`
+	Attributes     Attributes `json:"attributes"`
+}
+
+type Attributes struct {
+	Strength     int `json:"strength"`
+	Dexterity    int `json:"dexterity"`
+	Constitution int `json:"constitution"`
+	Intelligence int `json:"intelligence"`
+	Wisdom       int `json:"wisdom"`
+	Charisma     int `json:"charisma"`
 }
 
 var characters = []Character{}
@@ -81,6 +91,7 @@ func writeCharacterToCSV(c Character) error {
 		c.Race,
 		c.CharacterClass,
 		fmt.Sprint(c.Level),
+		fmt.Sprint(c.Attributes),
 	}
 
 	if err := writer.Write(record); err != nil {

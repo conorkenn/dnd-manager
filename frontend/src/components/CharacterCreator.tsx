@@ -71,6 +71,14 @@ const CharacterCreator: React.FC = () => {
                     <p>race: {result.character.race}</p>
                     <p>class: {result.character.characterClass}</p>
                     <p>level: {result.character.level}</p>
+                    <p>Attributes: </p>
+                    <p>str: {result.character.attributes.strength}</p>
+                    <p>dex: {result.character.attributes.dexterity}</p>
+                    <p>cons: {result.character.attributes.constitution}</p>
+                    <p>int: {result.character.attributes.intelligence}</p>
+                    <p>wis: {result.character.attributes.wisdom}</p>
+                    <p>cha: {result.character.attributes.charisma}</p>
+                    <p></p>
                 </div>
             )}
         </div>
