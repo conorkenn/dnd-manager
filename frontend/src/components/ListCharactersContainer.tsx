@@ -29,6 +29,13 @@ const ListCharactersContainer: React.FC = () => {
                     {characters.map((character, index)=> (
                         <li>
                             <p>{character.name} {character.race} {character.characterClass} {character.level}</p>
+                            <p>Attributes</p>
+                            <p>str: {character.attributes.strength}</p>
+                            <p>dex: {character.attributes.dexterity}</p>
+                            <p>cons: {character.attributes.constitution}</p>
+                            <p>int: {character.attributes.intelligence}</p>
+                            <p>wis: {character.attributes.wisdom}</p>
+                            <p>cha: {character.attributes.charisma}</p>
                         </li>
                     ))}
                 </ul>

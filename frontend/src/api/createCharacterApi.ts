@@ -13,7 +13,6 @@ export interface Attributes {
     intelligence: number
     wisdom: number
     charisma: number
-
 }
 
 export interface CreateCharacterResponse {
