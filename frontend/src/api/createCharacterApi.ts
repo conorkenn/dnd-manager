@@ -1,4 +1,4 @@
-import { Character } from "../types"
+import { Attributes, Character } from "../types"
 
 export interface CreateCharacterResponse {
     character: Character
@@ -10,10 +10,19 @@ export interface CreateCharacterRequest {
     race: string
     characterClass: string
     level: number
+    attributes?: Attributes
 }
 
 
 export async function createCharacter(data: CreateCharacterRequest): Promise<CreateCharacterResponse>{
+    data.attributes = data.attributes || {
+        strength: 10,
+        dexterity: 10,
+        constitution: 10,
+        intelligence: 10,
+        wisdom: 10,
+        charisma: 10,
+    };
     const response = await fetch('http://localhost:8080/characters', {
         method: 'POST',
         headers: {
