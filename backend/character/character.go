@@ -2,6 +2,7 @@ package character
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -84,20 +85,25 @@ func writeCharacterToCSV(c Character) error {
 	defer file.Close()
 
 	writer := csv.NewWriter(file)
-	defer writer.Flush()
+
+	attributesJSON, err := json.Marshal(c.Attributes)
+	if err != nil {
+		return fmt.Errorf("failed to marshal attributes: %v", err)
+	}
 
 	record := []string{
 		c.Name,
 		c.Race,
 		c.CharacterClass,
 		fmt.Sprint(c.Level),
-		fmt.Sprint(c.Attributes),
+		string(attributesJSON),
 	}
 
 	if err := writer.Write(record); err != nil {
 		return err
 	}
 
+	defer writer.Flush()
 	return nil
 
 }
@@ -128,11 +134,17 @@ func loadCharactersFromCSV() error {
 			return err
 		}
 
+		var attributes Attributes
+		if err := json.Unmarshal([]byte(record[4]), &attributes); err != nil {
+			return err
+		}
+
 		character := Character{
 			Name:           record[0],
 			Race:           record[1],
 			CharacterClass: record[2],
 			Level:          level,
+			Attributes:     attributes,
 		}
 
 		characters = append(characters, character)
