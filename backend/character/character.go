@@ -26,6 +26,15 @@ func CreateCharacter(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	taken, err := isNameTaken(newCharacter.Name)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to check csv"})
+	}
+	if taken {
+		c.JSON(http.StatusConflict, gin.H{"message": "character name is already taken"})
+		return
+	}
 	characters = append(characters, newCharacter)
 
 	if err := writeCharacterToCSV(newCharacter); err != nil {
@@ -119,4 +128,29 @@ func loadCharactersFromCSV() error {
 	}
 
 	return nil
+}
+
+func isNameTaken(name string) (bool, error) {
+	file, err := os.Open("characters.csv")
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil
+		}
+		return false, err
+	}
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	records, err := reader.ReadAll()
+	if err != nil {
+		return false, err
+	}
+
+	for _, record := range records {
+		if len(record) > 0 && record[0] == name {
+			return true, nil
+		}
+	}
+	return false, nil
 }
