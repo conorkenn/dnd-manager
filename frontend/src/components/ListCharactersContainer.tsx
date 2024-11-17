@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {listCharacters, Character} from '../api/listCharacterApi'
+import {listCharacters} from '../api/listCharacterApi'
+import { Character } from "../types";
 
 const ListCharactersContainer: React.FC = () => {
     const [characters, setCharacters] = useState<Character[]>([])
