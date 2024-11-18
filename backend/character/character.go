@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -30,6 +31,9 @@ type Attributes struct {
 
 var characters = []Character{}
 
+var ValidClasses = []string{"Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"}
+var ValidRaces = []string{"Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Elf", "Half-Orc", "Tiefling", "Dragonborn"}
+
 func CreateCharacter(c *gin.Context) {
 	var newCharacter Character
 
@@ -38,14 +42,13 @@ func CreateCharacter(c *gin.Context) {
 		return
 	}
 
-	taken, err := isNameTaken(newCharacter.Name)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to check csv"})
-	}
-	if taken {
-		c.JSON(http.StatusConflict, gin.H{"message": "character name is already taken"})
+	log.Println("Character data received:", newCharacter) // Log the character data
+
+	if err := validateCharacter(newCharacter); err != nil {
+		c.JSON(http.StatusConflict, gin.H{"message": err.Error()})
 		return
 	}
+
 	characters = append(characters, newCharacter)
 
 	if err := writeCharacterToCSV(newCharacter); err != nil {
@@ -176,4 +179,43 @@ func isNameTaken(name string) (bool, error) {
 		}
 	}
 	return false, nil
+}
+
+func validateCharacter(character Character) error {
+
+	taken, err := isNameTaken(character.Name)
+	if err != nil {
+		return fmt.Errorf("failed to check csv %v", err)
+	}
+
+	if taken {
+		return fmt.Errorf("name is already taken")
+	}
+
+	if !isValidRace(character.Race) {
+		return fmt.Errorf("not a valid race")
+	}
+
+	if !isValidClass(character.CharacterClass) {
+		return fmt.Errorf("not a valid class")
+	}
+	return nil
+}
+
+func isValidRace(race string) bool {
+	for _, r := range ValidRaces {
+		if r == race {
+			return true
+		}
+	}
+	return false
+}
+
+func isValidClass(class string) bool {
+	for _, c := range ValidClasses {
+		if c == class {
+			return true
+		}
+	}
+	return false
 }
