@@ -16,7 +16,7 @@ func main() {
 
 	router.POST("/characters", character.CreateCharacter)
 	router.GET("/characters", character.ListCharacters)
-	router.GET("/delete", character.DeleteCharacters)
+	router.DELETE("/delete", character.DeleteCharacters)
 	router.POST("/roll", dice.Roll)
 
 	router.Run(":8080")

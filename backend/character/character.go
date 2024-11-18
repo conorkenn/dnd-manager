@@ -75,6 +75,7 @@ func DeleteCharacters(c *gin.Context) {
 	if err := os.Remove("characters.csv"); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to delete characters"})
 	}
+	characters = []Character{}
 	c.JSON(http.StatusOK, gin.H{
 		"message": "successfully delete characters"})
 }
