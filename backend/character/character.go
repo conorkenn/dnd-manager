@@ -61,6 +61,23 @@ func CreateCharacter(c *gin.Context) {
 
 }
 
+func GetCharacter(c *gin.Context) {
+	name := c.Param("name")
+
+	if err := loadCharactersFromCSV(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to load characters"})
+	}
+
+	for _, character := range characters {
+		if character.Name == name {
+			c.JSON(http.StatusOK, character)
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{"message": "character not found"})
+}
+
 func ListCharacters(c *gin.Context) {
 
 	if err := loadCharactersFromCSV(); err != nil {
