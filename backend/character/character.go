@@ -66,6 +66,7 @@ func GetCharacter(c *gin.Context) {
 
 	if err := loadCharactersFromCSV(); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to load characters"})
+		return
 	}
 
 	for _, character := range characters {
@@ -129,7 +130,7 @@ func writeCharacterToCSV(c Character) error {
 
 }
 
-func loadCharactersFromCSV() error {
+var loadCharactersFromCSV = func() error {
 	file, err := os.Open("characters.csv")
 	if err != nil {
 		if os.IsNotExist(err) {
