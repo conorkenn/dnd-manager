@@ -234,4 +234,24 @@ func TestListCharacters(t *testing.T) {
 
 		assert.Contains(t, w.Body.String(), `"message":"successfully listed characters"`)
 	})
+
+	t.Run("List Characters failure", func(t *testing.T) {
+		req, _ := http.NewRequest(http.MethodGet, "/characters", nil)
+		w := httptest.NewRecorder()
+
+		originalLoadFunc := loadCharactersFromCSV
+
+		defer func() {
+			loadCharactersFromCSV = originalLoadFunc
+		}()
+
+		loadCharactersFromCSV = func() error {
+			return fmt.Errorf("failed to load characters")
+		}
+
+		router.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusInternalServerError, w.Code)
+
+		assert.Contains(t, w.Body.String(), `"error":"failed to load characters"`)
+	})
 }
