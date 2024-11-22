@@ -14,10 +14,7 @@ func main() {
 	// Enable CORS
 	router.Use(cors.Default())
 
-	router.POST("/characters", character.CreateCharacter)
-	router.GET("/characters", character.ListCharacters)
-	router.GET("/characters/:name", character.GetCharacter)
-	router.DELETE("/delete", character.DeleteCharacters)
+	character.CharacterRoutes(router)
 	router.POST("/roll", dice.Roll)
 
 	router.Run(":8080")
