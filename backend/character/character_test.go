@@ -218,3 +218,20 @@ func TestGetCharacter(t *testing.T) {
 	})
 
 }
+
+func TestListCharacters(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	router := gin.Default()
+
+	router.GET("/characters", ListCharacters)
+
+	t.Run("List Characters success", func(t *testing.T) {
+		req, _ := http.NewRequest(http.MethodGet, "/characters", nil)
+		w := httptest.NewRecorder()
+
+		router.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusOK, w.Code)
+
+		assert.Contains(t, w.Body.String(), `"message":"successfully listed characters"`)
+	})
+}
