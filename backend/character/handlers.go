@@ -27,6 +27,7 @@ func CreateCharacter(c *gin.Context) {
 
 	if err := writeCharacterToCSV(newCharacter); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to save character"})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"character": newCharacter,
@@ -56,6 +57,7 @@ func ListCharacters(c *gin.Context) {
 
 	if err := loadCharactersFromCSV(); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to load characters"})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"characters": characters,
@@ -65,6 +67,7 @@ func ListCharacters(c *gin.Context) {
 func DeleteCharacters(c *gin.Context) {
 	if err := os.Remove("characters.csv"); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to delete characters"})
+		return
 	}
 	characters = []Character{}
 	c.JSON(http.StatusOK, gin.H{

@@ -1,6 +1,8 @@
 package character
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func CharacterRoutes(router *gin.Engine) {
 	router.POST("/characters", CreateCharacter)
