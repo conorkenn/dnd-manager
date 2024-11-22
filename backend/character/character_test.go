@@ -86,7 +86,7 @@ func TestCreateCharacter(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, w.Code)
 
-		expectedResponse := `{"character":{"name":"Suel","race":"Elf","characterClass":"Wizard", "hitpoints":0, "level":1,"attributes":{"strength":10,"dexterity":12,"constitution":13,"intelligence":15,"wisdom":14,"charisma":8}},"message":"successfully created character"}`
+		expectedResponse := `{"character":{"name":"Suel","race":"Elf","characterClass":"Wizard","experiencePoints":0, "hitPoints":0, "level":1,"attributes":{"strength":10,"dexterity":12,"constitution":13,"intelligence":15,"wisdom":14,"charisma":8}},"message":"successfully created character"}`
 		assert.JSONEq(t, expectedResponse, w.Body.String())
 	})
 

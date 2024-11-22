@@ -15,4 +15,10 @@ func TestCharacterHelper(t *testing.T) {
 		hp := calculateHitPoints(testCharacter)
 		assert.Equal(t, hp, 11)
 	})
+
+	t.Run("Calculate level", func(t *testing.T) {
+		testCharacter.ExperiencePoints = 265000
+		applyXpGains(&testCharacter, 1)
+		assert.Equal(t, testCharacter.Level, 18)
+	})
 }
