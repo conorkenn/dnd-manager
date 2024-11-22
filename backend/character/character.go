@@ -6,6 +6,7 @@ type Character struct {
 	CharacterClass string     `json:"characterClass"`
 	Level          int        `json:"level"`
 	Attributes     Attributes `json:"attributes"`
+	HitPoints      int        `json:"hitpoints"`
 }
 
 type Attributes struct {

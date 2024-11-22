@@ -32,6 +32,7 @@ func TestCreateCharacter(t *testing.T) {
 			Wisdom:       14,
 			Charisma:     8,
 		},
+		HitPoints: 0,
 	}
 
 	jsonPayload, err := json.Marshal(newCharacter)
@@ -85,7 +86,7 @@ func TestCreateCharacter(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, w.Code)
 
-		expectedResponse := `{"character":{"name":"Suel","race":"Elf","characterClass":"Wizard","level":1,"attributes":{"strength":10,"dexterity":12,"constitution":13,"intelligence":15,"wisdom":14,"charisma":8}},"message":"successfully created character"}`
+		expectedResponse := `{"character":{"name":"Suel","race":"Elf","characterClass":"Wizard", "hitpoints":0, "level":1,"attributes":{"strength":10,"dexterity":12,"constitution":13,"intelligence":15,"wisdom":14,"charisma":8}},"message":"successfully created character"}`
 		assert.JSONEq(t, expectedResponse, w.Body.String())
 	})
 
